@@ -1,0 +1,1 @@
+Ce programme permet de réaliser sur la maquette pratique la commande par minimum de variance en utulisant un réseau de 1 neurone

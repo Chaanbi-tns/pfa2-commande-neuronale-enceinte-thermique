@@ -1,0 +1,228 @@
+=====================================================================
+  DISCOURS DE PRÉSENTATION - SLIDE PAR SLIDE
+  Commande Neuronale d'un Système Thermique à Distance
+  Projet de Fin d'Année II - ENIT 2025/2026
+=====================================================================
+
+---------------------------------------------------------------------
+SLIDE 1 : Page de garde
+---------------------------------------------------------------------
+Bonjour à tous, bonjour les membres du jury.
+Nous sommes Ouri Mohamed Amine et Chaanbi Hassen, étudiants en
+deuxième année Génie Électrique à l'ENIT. Notre projet de fin
+d'année porte sur la commande neuronale d'un système thermique à
+distance, encadré par Monsieur Bouani Faouzi.
+
+---------------------------------------------------------------------
+SLIDE 2 : Plan
+---------------------------------------------------------------------
+Voici le plan de notre présentation. On va parler de la
+problématique, des fondements théoriques, puis des simulations,
+ensuite de l'implémentation pratique avec la communication sans
+fil, et on termine par le bilan et la conclusion.
+
+---------------------------------------------------------------------
+SLIDE 3 : Problématique
+---------------------------------------------------------------------
+Notre problème est simple : comment commander un système thermique
+dont on ne connaît pas le modèle mathématique ? Le PID classique
+a besoin de ce modèle pour fonctionner. Mais les systèmes réels
+sont non linéaires et perturbés. Notre solution : utiliser les
+réseaux de neurones, qui apprennent la dynamique du système
+directement à partir des données.
+
+---------------------------------------------------------------------
+SLIDE 4 : Objectifs et démarche
+---------------------------------------------------------------------
+Notre démarche se divise en trois phases. D'abord la théorie où
+on compare le PID et les neurones. Ensuite les simulations sous
+Matlab pour valider l'approche. Et enfin l'implémentation
+pratique sur des cartes ESP32 avec communication sans fil.
+
+---------------------------------------------------------------------
+SLIDE 5 : Neurone artificiel et MLP
+---------------------------------------------------------------------
+Le neurone artificiel fait trois choses : il prend des entrées,
+calcule une somme pondérée, puis passe le résultat dans une
+fonction d'activation comme la tangente hyperbolique. Le
+Perceptron Multi-Couche empile plusieurs neurones en couches.
+Le théorème de Cybenko nous dit qu'un MLP avec une seule couche
+cachée peut approximer n'importe quelle fonction continue.
+
+---------------------------------------------------------------------
+SLIDE 6 : Commande neuronale d'un système inconnu
+---------------------------------------------------------------------
+L'approche neuronale fonctionne en deux étapes. D'abord,
+l'identification : le réseau apprend le comportement du système
+à partir des données. Ensuite, la commande : on utilise ce
+modèle appris pour calculer la commande optimale par descente
+de gradient. L'avantage principal : pas besoin de modèle
+mathématique.
+
+---------------------------------------------------------------------
+SLIDE 7 : Simulation PID - Réponse boucle ouverte
+---------------------------------------------------------------------
+Passons aux simulations. Voici la réponse en boucle ouverte de
+notre système du second ordre. Comme on le voit sur le graphe,
+le système est sous-amorti avec un dépassement, ce qui confirme
+la nécessité d'un correcteur.
+
+---------------------------------------------------------------------
+SLIDE 8 : Simulation PID - Résultats boucle fermée
+---------------------------------------------------------------------
+Avec le correcteur PID, on obtient ces résultats. À gauche, le
+signal de commande qui évolue de façon exponentielle. À droite,
+la réponse du système qui suit bien la consigne, sans erreur
+statique et sans dépassement. Le PID fonctionne bien ici, mais
+uniquement parce qu'on connaît le modèle.
+
+---------------------------------------------------------------------
+SLIDE 9 : Identification neuronale - Système non linéaire
+---------------------------------------------------------------------
+Pour le système non linéaire, voici l'équation récurrente avec
+une non-linéarité quadratique et des retards. On utilise une
+commande aléatoire comme entrée. Le neurone d'identification
+prend en entrée la commande passée et la sortie passée, et sa
+sortie passe par une tangente hyperbolique.
+
+---------------------------------------------------------------------
+SLIDE 10 : Résultats de l'identification
+---------------------------------------------------------------------
+Voici les résultats. À gauche, la sortie réelle comparée à la
+sortie prédite : le neurone suit bien la dynamique. À droite,
+la convergence du critère d'erreur pour trois valeurs de mu.
+On voit que mu égal à 0,01 donne le meilleur compromis entre
+vitesse et stabilité.
+
+---------------------------------------------------------------------
+SLIDE 11 : Commande minimum de variance - Principe
+---------------------------------------------------------------------
+Pour la commande, on utilise le critère de minimum de variance.
+Il minimise l'écart consigne-sortie tout en pénalisant les
+variations brusques de commande. Le graphe montre le bon suivi
+de consigne obtenu avec un lambda faible.
+
+---------------------------------------------------------------------
+SLIDE 12 : Commande minimum de variance - Résultats
+---------------------------------------------------------------------
+Voici les résultats complets. En haut, avec un lambda faible :
+bon suivi et commande stable. En bas, avec lambda égal à 4 :
+la réponse devient lente et imprécise. Cela montre l'importance
+du réglage de ce paramètre.
+
+---------------------------------------------------------------------
+SLIDE 13 : Bilan des simulations
+---------------------------------------------------------------------
+En résumé, le PID est efficace pour les systèmes linéaires mais
+nécessite un modèle. La commande neuronale fonctionne sans
+modèle, s'adapte aux non-linéarités, et donne un bon suivi de
+consigne. On peut maintenant passer à l'implémentation pratique.
+
+---------------------------------------------------------------------
+SLIDE 14 : Composants matériels
+---------------------------------------------------------------------
+Voici les trois composants principaux de notre montage.
+L'ESP32, un microcontrôleur avec Wi-Fi intégré. Le module AC
+Dimmer pour contrôler la puissance de la lampe. Et le capteur
+DHT22 pour mesurer la température avec une précision de 0,1
+degré.
+
+---------------------------------------------------------------------
+SLIDE 15 : Architecture du système
+---------------------------------------------------------------------
+Voici l'architecture complète. Deux ESP32 communiquent par
+ESP-NOW. L'un mesure la température avec le DHT22. L'autre
+reçoit cette mesure, calcule la commande avec l'algorithme de
+minimum de variance, et envoie le signal au dimmer qui contrôle
+la lampe dans la boîte fermée.
+
+---------------------------------------------------------------------
+SLIDE 16 : Essai boucle ouverte - Collecte de données
+---------------------------------------------------------------------
+On commence par l'essai en boucle ouverte. À gauche, l'évolution
+de la température mesurée. À droite, la commande appliquée. On
+applique des commandes constantes sur des intervalles de 2000
+échantillons pour constituer notre base d'apprentissage.
+
+---------------------------------------------------------------------
+SLIDE 17 : Apprentissage - Phase d'entraînement
+---------------------------------------------------------------------
+Voici les résultats de l'apprentissage. La courbe montre que la
+sortie prédite par le neurone suit fidèlement la sortie réelle
+du système thermique. Les données ont été normalisées pour
+faciliter l'apprentissage.
+
+---------------------------------------------------------------------
+SLIDE 18 : Apprentissage - Phase de test
+---------------------------------------------------------------------
+Et voici la phase de test avec des données que le neurone n'a
+jamais vues. Le modèle généralise correctement, ce qui valide
+les poids obtenus lors de l'apprentissage.
+
+---------------------------------------------------------------------
+SLIDE 19 : Montage expérimental
+---------------------------------------------------------------------
+Voici notre montage expérimental. On voit l'ESP32 connecté au
+dimmer et au capteur DHT22, avec la lampe dans la boîte fermée.
+
+---------------------------------------------------------------------
+SLIDE 20 : Résultats boucle fermée - Commande câblée
+---------------------------------------------------------------------
+Voici le résultat principal de la commande câblée. On a donné
+deux consignes : 35 degrés puis 45 degrés. La température finit
+par suivre la consigne. Il y a de petites oscillations dues à
+l'inertie thermique, mais le système reste stable.
+
+---------------------------------------------------------------------
+SLIDE 21 : Protocole ESP-NOW
+---------------------------------------------------------------------
+Pour la commande à distance, on utilise ESP-NOW. C'est un
+protocole qui permet aux ESP32 de communiquer directement, sans
+routeur Wi-Fi. La latence est de l'ordre de la milliseconde et
+la portée atteint 200 mètres. Parfait pour notre application.
+
+---------------------------------------------------------------------
+SLIDE 22 : Montage avec communication sans fil
+---------------------------------------------------------------------
+Voici le montage avec les deux cartes ESP32. L'une pour la
+mesure et l'autre pour la commande. La seule différence avec
+le montage précédent est l'ajout de la deuxième carte.
+
+---------------------------------------------------------------------
+SLIDE 23 : Résultats - Commande à distance
+---------------------------------------------------------------------
+Et voici les résultats avec la communication sans fil. Les
+consignes sont 40 et 50 degrés. Le suivi de consigne est
+confirmé. Le retard est dû à l'inertie du système thermique.
+Le système reste stable, ce qui prouve que la commande neuronale
+à distance fonctionne correctement.
+
+---------------------------------------------------------------------
+SLIDE 24 : Bilan comparatif
+---------------------------------------------------------------------
+Pour résumer la comparaison : le PID a besoin d'un modèle, le
+réseau de neurones non. Le PID est très bon pour le linéaire,
+la commande neuronale est adaptée au non linéaire. Le réglage
+du PID est manuel, celui du neurone est automatique par
+apprentissage. La commande neuronale est indispensable quand
+le modèle est inconnu.
+
+---------------------------------------------------------------------
+SLIDE 25 : Conclusion
+---------------------------------------------------------------------
+Pour conclure, nous avons réalisé cinq étapes : les fondements
+théoriques, les simulations Matlab, l'implémentation sur ESP32,
+la communication sans fil, et la validation expérimentale. En
+perspectives, on pourrait utiliser un réseau plus profond,
+appliquer la méthode à d'autres procédés industriels, ou
+ajouter une interface web de supervision.
+
+---------------------------------------------------------------------
+SLIDE 26 : Merci de votre attention
+---------------------------------------------------------------------
+Merci beaucoup de votre attention. Nous sommes prêts à répondre
+à vos questions.
+
+=====================================================================
+  FIN DU DISCOURS
+=====================================================================

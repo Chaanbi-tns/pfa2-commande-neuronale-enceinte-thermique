@@ -1,0 +1,3 @@
+📁 Dossier : Tests de Capacité d'Apprentissage — Architectures de Réseaux de Neurones
+Description
+Ce dossier regroupe l'ensemble des programmes de test conçus pour évaluer et comparer la capacité d'apprentissage de différentes architectures de réseaux de neurones artificiels.

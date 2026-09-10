@@ -1,0 +1,19 @@
+\chapter*{Conclusion générale}
+\addcontentsline{toc}{chapter}{Conclusion générale}
+
+\vspace{0.5cm}
+
+Ce projet de fin d'année avait pour objectif la conception et
+l'implémentation d'une stratégie de commande neuronale à minimum
+de variance appliquée à un système thermique réel.
+
+Dans un premier temps, on a établit les fondements théoriques nécessaires pour cette approche. Nous avons introduit la commande PID appliquée à un systéme de deuxiéme ordre.Cependant,on a montré alors sa limite face à des systémes plus dynamique et de modèle connu.Face à des systèmes non linéaires, cette approche atteint ses limites, ce qui a motivé le recours aux
+réseaux de neurones artificiels.
+Dans un second temps,nous avons simulé la commande par réseaux de neurones sous \textsc{Matlab}. L'algorithme de
+descente de gradient par lots a permis d'identifier avec précision la dynamique du systéme non linéaire, avec une convergence optimale du critére d'erreur.
+
+Enfin, Nous avons réalisé l'essai  pratique sur carte ESP32 commençant par une commande cablée sur le systéme appliquant en fait ce qu'on vue dans la démarche théorique du projet,par la suite nous avons établie une commande à communication sans fil sur le systéme.
+
+Ce travail ouvre plusieurs perspectives d'amélioration. Le prototype étudié est un système thermique lentement variable, ce qui rend l'hypothèse d'une dynamique localement linéarisable acceptable sur cet intervalle de fonctionnement. De plus, l'excitation d'un neurone de type perceptron durant la phase d'apprentissage a produit des résultats satisfaisants : l'erreur finale lors de la phase de test est restée dans des limites lisibles et acceptables pour ce type de système.
+Toutefois, cette approche atteint ses limites dès lors que l'on s'intéresse à des systèmes à dynamique plus rapide ou fortement non linéaire. Dans ce cas, un perceptron à couche unique ne dispose pas d'une capacité de représentation suffisante pour capturer l'ensemble des variations du système : les informations acquises sur la dynamique entrée-sortie deviennent insuffisantes, et l'erreur d'identification devient non négligeable. Le recours à un réseau de neurones multicouche (MLP profond) s'impose alors, au prix d'un nombre de paramètres plus élevé et d'une complexité algorithmique accrue.
+Cette complexité soulève à son tour des contraintes d'implémentation embarquée : la charge de calcul augmente à chaque propagation avant et à chaque mise à jour des poids, et l'empreinte mémoire du modèle peut dépasser les capacités d'un microcontrôleur tel que l'ESP32. Une piste naturelle consiste alors à délocaliser la phase d'apprentissage sur un ordinateur hôte en exploitant des bibliothèques Python de machine learning optimisées — telles que TensorFlow Lite ou scikit-learn — puis à déployer uniquement le modèle entraîné sur la carte embarquée pour l'inférence en temps réel.

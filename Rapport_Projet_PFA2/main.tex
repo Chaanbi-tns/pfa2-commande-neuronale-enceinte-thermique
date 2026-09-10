@@ -1,0 +1,158 @@
+\documentclass[a4paper,12pt]{report}
+
+%================= ENCODAGE =================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lettrine}
+%================= POLICES ET TYPOGRAPHIE =================
+\usepackage{lmodern}
+\usepackage{microtype}
+
+%================= MATHÉMATIQUES =================
+\usepackage{amsmath,amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\numberwithin{equation}{section}
+\usepackage{subcaption} 
+%================= GRAPHIQUES ET FIGURES =================
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[european]{circuitikz}
+\usetikzlibrary{calc}
+\usepackage[pages=some]{background}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+%================= TABLEAUX =================
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{1.5}
+\usetikzlibrary{backgrounds, fit, positioning, calc, arrows.meta}
+%================= MISE EN PAGE =================
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=1.2cm, right=1.2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{textpos}
+\usepackage{indentfirst}
+\usepackage{lmodern}  % version améliorée de Computer Modern (recommandée)
+\usepackage{tikz}
+\usepackage{float}       % pour [H]
+\usepackage{amsmath}
+\usetikzlibrary{shapes, arrows.meta, positioning, calc}
+\usepackage[utf8]{inputenc}
+%================= LISTES =================
+\usepackage{enumitem}
+\usetikzlibrary{positioning, shapes.geometric}
+%================= ALGORITHMES =================
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%================= SECTIONS ET TITRES =================
+\usepackage{titlesec}
+
+% Configuration des titres de chapitres
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% Configuration des sections
+\titleformat{\section}
+{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+% Configuration des subsections
+\titleformat{\subsection}
+{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Configuration des subsubsections
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+%================= TABLE DES MATIÈRES =================
+\usepackage[nottoc]{tocbibind}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+%================= LIENS HYPERTEXTES =================
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdftitle={Prothèse intégrée contrôlée par une main saine},
+    pdfauthor={Votre Nom},
+    pdfsubject={Projet de Fin d'Année II},
+    pdfkeywords={prothèse, EMG, machine learning, SVM}
+}
+
+%================= BIBLIOGRAPHIE =================
+\usepackage{siunitx}
+
+%================= EN-TÊTES ET PIEDS DE PAGE =================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Style pour les pages de début de chapitre
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+%================= ESPACEMENT DES LIGNES =================
+\usepackage{setspace}
+\onehalfspacing
+
+\begin{document}
+
+%================= PAGE DE GARDE =================
+\input{titre}
+
+%================= PAGE BLANCHE =================
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+%================= REMERCIEMENTS =================
+\pagenumbering{roman}
+\setcounter{page}{1}
+\input{remerciements}
+
+%================= RÉSUMÉ =================
+\input{resume}
+
+%================= TABLES =================
+\tableofcontents
+\listoffigures
+\listoftables
+
+%================= CORPS DU DOCUMENT =================
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{introduction}
+\input{chapitre1}
+\input{chapitre2}
+\input{chapitre3}
+\input{conclusion}
+
+%================= BIBLIOGRAPHIE =================
+\input{Bibliographie}
+
+%================= ANNEXES =================
+\appendix
+\input{annexe1}
+
+\end{document}

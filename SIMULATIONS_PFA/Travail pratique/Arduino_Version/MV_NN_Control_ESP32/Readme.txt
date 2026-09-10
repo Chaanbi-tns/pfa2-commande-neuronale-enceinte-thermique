@@ -1,0 +1,1 @@
+Ce programme esp32 permet de simuler la commande par minimum de variance,l'enregistrement aura lieu dans la mémoire flash du esp32 ,et donc on lit avec le SPIFFD

@@ -1,0 +1,19 @@
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+\lettrine[lines=3]{L}{’évolution} technologique actuelle se trouve à la croisée de l’intelligence artificielle et du génie automatique. Les réseaux de neurones artificiels sont une technologie de rupture au cœur de cette synergie. En s’inspirant des mécanismes biologiques du cerveau humain, les réseaux de neurones artificiels donnent aux machines la capacité d’apprendre et de s’adapter, ce qui pourrait transformer profondément la gestion des systèmes complexes.
+
+Dans le domaine de la commande de systèmes, les approches classiques, comme les régulateurs PID ou la commande prédictive, ont fait leurs preuves sur les systèmes linéaires dont le modèle mathématique est parfaitement connu. Ces méthodes ont toutefois leurs limites lorsqu'elles sont appliquées à des systèmes non linéaires, incertains ou soumis à des perturbations environnementales imprévisibles. C’est ici que la commande neuronale montre tout son intérêt : elle propose une alternative puissante, capable d’approximer des fonctions complexes et d’apprendre la dynamique d’un système à partir de données réelles, sans qu’il soit besoin de modélisation mathématique explicite.\\
+
+L'aptitude à s'adapter est encore plus critique si l'on considère qu'une grande part des systèmes réels sont exposés à des facteurs exogènes aléatoires et non prévues . De même que la littérature récente concernant la prédiction de la consommation énergétique, le réseau neuronal est capable de détecter des corrélations non-linéaires dans des ensembles de données perturbées, alors que l'approche analytique traditionnelle aurait échoué faute de paramètres.\\
+
+L’objectif de ce projet est de concevoir et mettre en œuvre un régulateur fondé sur les réseaux de neurones, en suivant une démarche rigoureuse allant de la théorie jusqu’à la validation expérimentale.\\
+ Ce rapport est structuré en trois chapitres complémentaires :
+
+\begin{itemize}[label=$\bullet$]
+	\item \textbf{Chapitre 1 : Fondements théoriques et évolution des commandes.} Ce chapitre expose les bases conceptuelles du projet. Nous y décrivons l’évolution de l’automatique, depuis la formalisation des régulateurs PID classiques jusqu’à l’émergence des architectures neuronales. Cette étude comparative montre les avantages des méthodes conventionnelles tout en pointant les limites structurelles qui rendent légitime le recours à des approches bio-inspirées plus avancées.
+	
+	\item \textbf{Chapitre 2 : Étude comparative par simulation numérique.} Consacré au cœur applicatif sous environnement MATLAB, ce chapitre se déroule suivant un ordre méthodique. Nous commençons par y évaluer les performances des régulateurs PID sur des modèles du second ordre. Nous mettons ensuite en œuvre et simulons des architectures neuronales (MLP et réseaux récurrents) pour des signaux non linéaires et des systèmes à mémoire, afin de valider la supériorité de l'apprentissage par descente de gradient dans ce contexte de non-linéarité.
+	
+	\item \textbf{Chapitre 3 : Mise en œuvre expérimentale et validation physique.} C'est cette partie qui passe de la simulation à la réalité. C'est à partir d'elle qu'on s'intéresse à l'utilisation concrète du régulateur dans un système thermique réel (enclosure fermée contrôlé par un ESP32). On s'y penchera en particulier sur l'instrumentation, la mise en place de la base de données expérimentale et la comparaison des capacités du régulateur neuronal face aux contraintes réelles (mesure aléatoire et inertie thermique).
+\end{itemize}

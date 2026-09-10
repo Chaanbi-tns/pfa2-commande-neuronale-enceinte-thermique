@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESP32 Temperature Monitor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:        #090e17;
+      --panel:     #0d1520;
+      --border:    #1a2d45;
+      --accent:    #00d4ff;
+      --accent2:   #ff6b35;
+      --hot:       #ff3d3d;
+      --cold:      #00d4ff;
+      --text:      #c8dce8;
+      --dim:       #4a6580;
+      --glow:      0 0 20px rgba(0,212,255,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(0,212,255,0.3); }
+      50%       { box-shadow: 0 0 25px rgba(0,212,255,0.7); }
+    }
+
+    .logo-icon svg { width: 22px; height: 22px; fill: var(--accent); }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--dim);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dim);
+      transition: background 0.3s;
+    }
+
+    .status-dot.connected { background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: blink 1.5s infinite; }
+    .status-dot.error     { background: var(--hot); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* Stats row */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
+    }
+
+    .stat-card:hover { border-color: var(--accent); }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .stat-value.hot  { color: var(--hot);  text-shadow: 0 0 20px var(--hot); }
+    .stat-value.cold { color: var(--cold); text-shadow: 0 0 20px var(--cold); }
+
+    .stat-unit {
+      font-size: 0.9rem;
+      color: var(--dim);
+      margin-left: 4px;
+    }
+
+    .stat-sub {
+      font-size: 0.75rem;
+      color: var(--dim);
+      margin-top: 6px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* Chart panel */
+    .chart-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .chart-title {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .chart-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--dim);
+    }
+
+    canvas { width: 100% !important; }
+
+    /* Config bar */
+    .config {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--dim);
+      flex-wrap: wrap;
+    }
+
+    .config input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      width: 180px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .config input:focus { border-color: var(--accent); }
+
+    .config button {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .config button:hover {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: var(--glow);
+    }
+
+    /* Incoming data flash */
+    @keyframes flash {
+      0%   { border-color: var(--accent); box-shadow: var(--glow); }
+      100% { border-color: var(--border); box-shadow: none; }
+    }
+
+    .flash { animation: flash 0.5s ease-out; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      </div>
+      <div>
+        <h1>THERMAL<span>LINK</span></h1>
+        <div style="font-size:0.7rem; letter-spacing:2px; color:var(--dim); text-transform:uppercase;">ESP32 Monitor</div>
+      </div>
+    </div>
+    <div class="status-bar">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">DISCONNECTED</span>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat-card" id="currentCard">
+      <div class="stat-label">Current Temp</div>
+      <div class="stat-value" id="currentTemp">--<span class="stat-unit">°C</span></div>
+      <div class="stat-sub" id="lastUpdate">Waiting for data...</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Maximum</div>
+      <div class="stat-value hot" id="maxTemp">--<span class="stat-unit">°C</span></div>
+      <div class="stat-sub" id="maxTime">--</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Minimum</div>
+      <div class="stat-value cold" id="minTemp">--<span class="stat-unit">°C</span></div>
+      <div class="stat-sub" id="minTime">--</div>
+    </div>
+  </div>
+
+  <div class="chart-panel" id="chartPanel">
+    <div class="chart-header">
+      <div class="chart-title">Temperature Timeline</div>
+      <div class="chart-badge" id="dataCount">0 readings</div>
+    </div>
+    <canvas id="tempChart" height="280"></canvas>
+  </div>
+
+  <div class="config">
+    <span>GATEWAY IP:</span>
+    <input type="text" id="ipInput" placeholder="192.168.1.100" value="192.168.1.100"/>
+    <button onclick="connect()">CONNECT</button>
+    <button onclick="clearData()">CLEAR</button>
+    <span id="wsUrl" style="color:var(--accent)"></span>
+  </div>
+
+</div>
+
+<script>
+  let ws = null;
+  let chart = null;
+  const MAX_POINTS = 50;
+  const labels = [];
+  const temps = [];
+  let maxTemp = null, minTemp = null;
+  let maxTime = '--', minTime = '--';
+
+  // ---- Chart setup ----
+  const ctx = document.getElementById('tempChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Temperature (°C)',
+        data: temps,
+        borderColor: '#00d4ff',
+        backgroundColor: 'rgba(0,212,255,0.05)',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: '#00d4ff',
+        pointBorderColor: '#00d4ff',
+        tension: 0.4,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 300 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0d1520',
+          borderColor: '#1a2d45',
+          borderWidth: 1,
+          titleColor: '#00d4ff',
+          bodyColor: '#c8dce8',
+          titleFont: { family: 'Share Tech Mono' },
+          bodyFont:  { family: 'Share Tech Mono' },
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#4a6580', font: { family: 'Share Tech Mono', size: 10 }, maxTicksLimit: 10 },
+          grid:  { color: 'rgba(26,45,69,0.5)' },
+        },
+        y: {
+          ticks: { color: '#4a6580', font: { family: 'Share Tech Mono', size: 11 }, callback: v => v + '°C' },
+          grid:  { color: 'rgba(26,45,69,0.5)' },
+        }
+      }
+    }
+  });
+
+  // ---- WebSocket connection ----
+  function connect() {
+    const ip = document.getElementById('ipInput').value.trim();
+    if (!ip) return;
+
+    if (ws) ws.close();
+
+    const url = `ws://${ip}:81`;
+    document.getElementById('wsUrl').textContent = url;
+    ws = new WebSocket(url);
+
+    ws.onopen = () => {
+      document.getElementById('statusDot').className = 'status-dot connected';
+      document.getElementById('statusText').textContent = 'CONNECTED';
+    };
+
+    ws.onclose = () => {
+      document.getElementById('statusDot').className = 'status-dot error';
+      document.getElementById('statusText').textContent = 'DISCONNECTED';
+    };
+
+    ws.onerror = () => {
+      document.getElementById('statusDot').className = 'status-dot error';
+      document.getElementById('statusText').textContent = 'ERROR';
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const d = JSON.parse(event.data);
+        addReading(d.temperature);
+      } catch(e) { console.error('Parse error:', e); }
+    };
+  }
+
+  // ---- Add new temperature reading ----
+  function addReading(temp) {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+
+    // Keep last MAX_POINTS
+    if (labels.length >= MAX_POINTS) { labels.shift(); temps.shift(); }
+    labels.push(timeStr);
+    temps.push(temp);
+
+    // Update chart
+    chart.update();
+
+    // Update current
+    document.getElementById('currentTemp').innerHTML = temp.toFixed(1) + '<span class="stat-unit">°C</span>';
+    document.getElementById('lastUpdate').textContent = 'Updated at ' + timeStr;
+    document.getElementById('dataCount').textContent = temps.length + ' readings';
+
+    // Update max
+    if (maxTemp === null || temp > maxTemp) {
+      maxTemp = temp;
+      maxTime = timeStr;
+      document.getElementById('maxTemp').innerHTML = temp.toFixed(1) + '<span class="stat-unit">°C</span>';
+      document.getElementById('maxTime').textContent = 'At ' + timeStr;
+    }
+
+    // Update min
+    if (minTemp === null || temp < minTemp) {
+      minTemp = temp;
+      minTime = timeStr;
+      document.getElementById('minTemp').innerHTML = temp.toFixed(1) + '<span class="stat-unit">°C</span>';
+      document.getElementById('minTime').textContent = 'At ' + timeStr;
+    }
+
+    // Color current temp
+    const el = document.getElementById('currentTemp');
+    el.style.color = temp > 30 ? '#ff3d3d' : temp < 15 ? '#00d4ff' : '#ffffff';
+
+    // Flash chart panel
+    const panel = document.getElementById('chartPanel');
+    panel.classList.remove('flash');
+    void panel.offsetWidth;
+    panel.classList.add('flash');
+  }
+
+  function clearData() {
+    labels.length = 0;
+    temps.length = 0;
+    maxTemp = null; minTemp = null;
+    chart.update();
+    document.getElementById('currentTemp').innerHTML = '--<span class="stat-unit">°C</span>';
+    document.getElementById('maxTemp').innerHTML    = '--<span class="stat-unit">°C</span>';
+    document.getElementById('minTemp').innerHTML    = '--<span class="stat-unit">°C</span>';
+    document.getElementById('lastUpdate').textContent = 'Waiting for data...';
+    document.getElementById('maxTime').textContent    = '--';
+    document.getElementById('minTime').textContent    = '--';
+    document.getElementById('dataCount').textContent  = '0 readings';
+  }
+
+  // Auto-connect on load if IP is set
+  window.onload = () => connect();
+</script>
+</body>
+</html>

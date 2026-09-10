@@ -1,0 +1,30 @@
+\babel@toc {french}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Représentation des systèmes monovariable et multivariable.}}{4}{figure.caption.7}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Structure de commande neuronale en boucle fermée. Le MLP joue le rôle du contrôleur neuronal direct.}}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Schéma structurel d'un neurone artificiel.}}{7}{figure.caption.9}%
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Fonction d'activation Heaviside.}}{8}{figure.caption.13}%
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Graphique de la fonction d'activation sigmoïde.}}{8}{figure.caption.16}%
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Graphique de la fonction d'activation tangente hyperbolique.}}{9}{figure.caption.18}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Architecture d'un MLP à $L=4$ couches cachées ($n_0=3,\tmspace +\thickmuskip {.2777em}n_1=4,\tmspace +\thickmuskip {.2777em}n_2=4,\tmspace +\thickmuskip {.2777em}n_3=2,\tmspace +\thickmuskip {.2777em}n_4=1$).}}{10}{figure.caption.19}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Réponse indicielle du système du second ordre en boucle ouverte.}}{15}{figure.caption.25}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Simulation de la commande PID appliquée au système du second ordre ($K_s = 5$, $\omega _0 = 20\,\text {rad/s}$, $\xi = 0{,}5$).}}{16}{figure.caption.27}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Évolution de la commande aléatoire $u(k) \in [-0{,}5,\tmspace +\thickmuskip {.2777em} 0{,}5]$.}}{19}{figure.caption.33}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Résultats de l'identification du système à mémoire.}}{19}{figure.caption.34}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Résultats de la commande par minimum de variance.}}{21}{figure.caption.40}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Changement de la réactivité du système pour les grandes valeurs de régularisation sur la commande.}}{22}{figure.caption.42}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Le microcontroleur ESP32}}{23}{figure.caption.43}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Module actionneur à Triacc (Dimmer)}}{25}{figure.caption.45}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Capteur d'humidité et de température DHT22}}{25}{figure.caption.46}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Schéma synoptique du système de régulation thermique}}{26}{figure.caption.48}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Evolution de la température en fonction du temps}}{27}{figure.caption.49}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Évolution de la commande en puissance pendant l'essai en boucle ouverte}}{28}{figure.caption.50}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Évolution de la sortie système et de la sortie prédite du neurone pendant l'apprentissage}}{29}{figure.caption.51}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Évolution de la sortie système et de la sortie prédite du neurone pendant le test}}{30}{figure.caption.52}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Montage expérimental}}{31}{figure.caption.53}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Évolution de la sortie, de la consigne et de la commande pour l'essai en boucle fermée}}{32}{figure.caption.54}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Schéma de communication entre les deux ESP32}}{33}{figure.caption.56}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Montage expérimental avec communication}}{34}{figure.caption.57}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Évolution de la sortie, de la consigne et de la commande}}{35}{figure.caption.58}%
