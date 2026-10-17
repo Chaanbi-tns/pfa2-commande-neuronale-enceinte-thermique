@@ -28,9 +28,10 @@ Dans cette section, nous présentons la conception globale du projet ainsi que l
 Le schéma ci-dessous illustre le flux de données et l'interaction entre les différents blocs du système :
 ![Schéma d'architecture global](Architecture.png)
 ### 2.fonctionnalités-principales
-
-
-## 📐 Architecture & Contexte
+dans la chaine de conception ,et détude du projet on a passé par rappeler les notions de commande classiques 
+,càd ceux développés sur la notion des controleurs PID ou controleur proportionel Intégrale dérivé appliqués sur un systéme de 1 ére et de deuxiéme ordre ,
+on voix alors la stabilisation de la sortie de systéme ,et le suivi de la commande régulée.Dans un deuxiéme temps on applique la commande neuronale RNA sur un systéme défine discret à commande générée aléatoirement,la relation entre sa sortie ,et son entrée est de la forme y(k)=F(u(k-1),u(k-2)),dans l'algorithme d'identification du systéme on va à quel nombre de passage le réseau apprend il complétement la dynamique du systéme.
+## 📐 3.Architecture & Contexte
 
 Le projet consiste en la mise en place d'une commande neuronale pour une enceinte thermique. La conception globale intègre l'interaction entre les microcontrôleurs et le système thermique à réguler.
 
