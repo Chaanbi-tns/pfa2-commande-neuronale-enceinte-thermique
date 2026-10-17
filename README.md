@@ -29,7 +29,7 @@ Dans cette section, nous présentons la conception globale du projet ainsi que l
 ### 1. Schéma Global du Système
 Le schéma ci-dessous illustre le flux de données et l'interaction entre les différents blocs du système :
 
-![Schéma d'architecture global](images/20260422_155818.png)
+![Schéma d'architecture global](Architecture.png)
 
 ## 📐 Architecture & Contexte
 
