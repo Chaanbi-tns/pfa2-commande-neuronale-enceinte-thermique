@@ -36,7 +36,7 @@ on voix alors la stabilisation de la sortie de systéme ,et le suivi de la comma
 | ![Figure 1](Apprentissage.png) | ![Figure 2](Critere.png) |
 |Figure 3 | Figure4 |
 | :---: | :---: |
-| ![Figure  3](commande.png)  ![Figure 2](Appri.png) |
+| ![Figure  3](commande.png)     | ![Figure 2](Appri.png) |
 
 ## 📐 3.Architecture & Contexte
 
