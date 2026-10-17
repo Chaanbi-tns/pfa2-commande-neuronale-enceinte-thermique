@@ -31,11 +31,18 @@ Le schéma ci-dessous illustre le flux de données et l'interaction entre les di
 
 ![Schéma d'architecture global](images/20260422_155818.png)
 
-### 2. Architecture Matérielle & Flux de Données
-Détails de l'implémentation et de la disposition des composants :
+## 📐 Architecture & Contexte
 
-| Vue d'ensemble | Schématique / Connexions |
+Le projet consiste en la mise en place d'une commande neuronale pour une enceinte thermique. La conception globale intègre l'interaction entre les microcontrôleurs et le système thermique à réguler.
+
+### Schémas et Vues du Système
+
+Voici les différentes figures illustrant le travail réalisé et la mise en place du montage :
+
+| Vue / Étape 1 | Vue / Étape 2 |
 | :---: | :---: |
-| ![Vue 1](images/20260422_155905.png) | ![Vue 2](images/20260422_155907.png) |
+| ![Figure 1](20260422_155818.png) | ![Figure 2](20260422_155905.png) |
 
-> *Description complémentaire pour expliquer les choix technologiques et le rôle de chaque bloc dans votre PFA.*
+| Vue / Étape 3 | Vue / Étape 4 |
+| :---: | :---: |
+| ![Figure 3](20260422_155907.png) | ![Figure 4](20260422_155911.png) |
