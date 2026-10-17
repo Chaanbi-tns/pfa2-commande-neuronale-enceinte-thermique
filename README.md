@@ -24,4 +24,18 @@
 
 ## 📐 Architecture & Contexte
 
-Expliquez la conception globale (schéma bloc, flux de données, architecture matérielle/logicielle ou diagramme de réseau). ,
+Dans cette section, nous présentons la conception globale du projet ainsi que l'architecture matérielle et logicielle mise en place.
+
+### 1. Schéma Global du Système
+Le schéma ci-dessous illustre le flux de données et l'interaction entre les différents blocs du système :
+
+![Schéma d'architecture global](images/20260422_155818.png)
+
+### 2. Architecture Matérielle & Flux de Données
+Détails de l'implémentation et de la disposition des composants :
+
+| Vue d'ensemble | Schématique / Connexions |
+| :---: | :---: |
+| ![Vue 1](images/20260422_155905.png) | ![Vue 2](images/20260422_155907.png) |
+
+> *Description complémentaire pour expliquer les choix technologiques et le rôle de chaque bloc dans votre PFA.*
