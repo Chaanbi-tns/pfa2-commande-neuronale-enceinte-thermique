@@ -33,7 +33,11 @@ dans la chaine de conception ,et détude du projet on a passé par rappeler les 
 on voix alors la stabilisation de la sortie de systéme ,et le suivi de la commande régulée.Dans un deuxiéme temps on applique la commande neuronale RNA sur un systéme défine discret à commande générée aléatoirement,la relation entre sa sortie ,et son entrée est de la forme y(k)=F(u(k-1),u(k-2)),dans l'algorithme d'identification du systéme on va à quel nombre de passage le réseau apprend il complétement la dynamique du systéme.
 |Figure 1 | Figure 2 |
 | :---: | :---: |
-| ![Figure 1](I_ordre.png) | ![Figure 2](II_ordre.png) |
+| ![Figure 1](Apprentissage.png) | ![Figure 2](Critere.png) |
+|Figure 3 |
+| :---: | :---: |
+| ![Figure  3](D_Pas.png)
+
 ## 📐 3.Architecture & Contexte
 
 Le projet consiste en la mise en place d'une commande neuronale pour une enceinte thermique. La conception globale intègre l'interaction entre les microcontrôleurs et le système thermique à réguler.
