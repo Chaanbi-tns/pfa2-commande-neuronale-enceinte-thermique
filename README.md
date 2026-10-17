@@ -20,8 +20,7 @@
 ---
 
 ## 💡 Présentation du Projet
-*Le projet que j'ai réalisé concentre sur l'imlémentation d'une commande par réseaux de neurones artificiel d'un systéme thermique ,on vois alors la création à la main des algorithmes d'apprentissages de test ,et de validation de la structure de commande 
-*Pour l'implémentation de la commande on utulise la cible esp32 devkit qui englobe le mcu esp32 de espressiv un mcu à connectvité BLE,et wifi selon le standard 805.11.2,l'algorithme de commande utulise aussi une pénalité sur la variation de la commande lors du calcul du RNA,qu'on appelle "commande par minimum de vaiance .
+*Le projet que j'ai réalisé concentre sur l'imlémentation d'une commande par réseaux de neurones artificiel d'un systéme thermique ,on vois alors la création à la main des algorithmes d'apprentissages de test ,et de validation de la structure de commande.Pour l'implémentation de la commande on utulise la cible esp32 devkit qui englobe le mcu esp32 de espressiv un mcu à connectvité BLE,et wifi selon le standard 805.11.2,l'algorithme de commande utulise aussi une pénalité sur la variation de la commande lors du calcul du RNA,qu'on appelle "commande par minimum de vaiance" .
 
 ## 📐 Architecture & Contexte
 
